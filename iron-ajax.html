@@ -335,17 +335,19 @@ element.
       var value;
 
       for (param in this.params) {
-        value = this.params[param];
-        param = window.encodeURIComponent(param);
+        if(this.params.hasOwnProperty(param)){
+          value = this.params[param];
+          param = window.encodeURIComponent(param);
 
-        if (Array.isArray(value)) {
-          for (var i = 0; i < value.length; i++) {
-            queryParts.push(param + '=' + window.encodeURIComponent(value[i]));
+          if (Array.isArray(value)) {
+            for (var i = 0; i < value.length; i++) {
+              queryParts.push(param + '=' + window.encodeURIComponent(value[i]));
+            }
+          } else if (value !== null) {
+            queryParts.push(param + '=' + window.encodeURIComponent(value));
+          } else {
+            queryParts.push(param);
           }
-        } else if (value !== null) {
-          queryParts.push(param + '=' + window.encodeURIComponent(value));
-        } else {
-          queryParts.push(param);
         }
       }
 
